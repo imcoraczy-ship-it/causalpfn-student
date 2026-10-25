@@ -2,6 +2,7 @@
 import unittest
 import csv
 import json
+import os
 from pathlib import Path
 import tempfile
 from unittest.mock import patch
@@ -101,6 +102,35 @@ class StarDesignTests(unittest.TestCase):
 
 
 class SummaryTests(unittest.TestCase):
+    def test_macos_memory_resources_are_explicitly_unavailable(self):
+        from scripts.e1_5_star import task_memory_usage
+        with patch('scripts.e1_5_star.sys.platform', 'darwin'), \
+                patch('scripts.e1_5_star.memory_usage') as native:
+            resources = task_memory_usage()
+        native.assert_not_called()
+        self.assertEqual(resources['status'], 'unavailable')
+        self.assertIn('macOS', resources['reason'])
+        self.assertEqual({k: v for k, v in resources.items() if k not in {'status', 'reason'}},
+                         dict(peak_working_set_bytes=None, working_set_bytes=None,
+                              private_bytes=None, process_pid=None))
+        self.assertEqual(json.loads(json.dumps(resources)), resources)
+
+    def test_windows_memory_resources_preserve_native_result(self):
+        from scripts.e1_5_star import task_memory_usage
+        measured = dict(peak_working_set_bytes=200, working_set_bytes=100,
+                        private_bytes=150, process_pid=123)
+        with patch('scripts.e1_5_star.sys.platform', 'win32'), \
+                patch('scripts.e1_5_star.memory_usage', return_value=measured) as native:
+            self.assertIs(task_memory_usage(), measured)
+        native.assert_called_once_with()
+
+    def test_native_memory_errors_are_not_hidden(self):
+        from scripts.e1_5_star import task_memory_usage
+        with patch('scripts.e1_5_star.sys.platform', 'win32'), \
+                patch('scripts.e1_5_star.memory_usage', side_effect=RuntimeError('native failure')):
+            with self.assertRaisesRegex(RuntimeError, 'native failure'):
+                task_memory_usage()
+
     def test_mechanism_blocks_equal_weights_and_no_dropping_uncovered_arms(self):
         support, metrics = [], []
         for mid in (1, 3):
@@ -132,6 +162,7 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(memory_trend(stable)['status'], 'no_sustained_growth_detected_at_this_scale')
         self.assertEqual(memory_trend(growth)['status'], 'investigate_growth')
 
+    @unittest.skipUnless(os.name == 'nt', 'Resource measurement requires Windows')
     def test_native_windows_resource_measurements(self):
         from scripts.e1_5_star_resources import memory_usage, physical_memory, cpu_seconds
         usage = memory_usage()

@@ -206,6 +206,16 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
+def task_memory_usage():
+    """Record unavailable Windows memory counters explicitly on macOS."""
+    if sys.platform == "darwin":
+        return dict(status="unavailable",
+                    reason="Native Windows process memory APIs are unavailable on macOS",
+                    peak_working_set_bytes=None, working_set_bytes=None,
+                    private_bytes=None, process_pid=None)
+    return memory_usage()
+
+
 def source_snapshot(directory):
     """Archive complete package source/config bytes, tests and experiment notes."""
     repo = ROOT.parents[2]
@@ -314,7 +324,7 @@ def main():
                                                   center_observed=bool(0 in inputs["observed_indices"]),
                                                   inference_seconds=inference_seconds,
                                                   process_cpu_seconds=time.process_time(),
-                                                  resources=memory_usage()))
+                                                  resources=task_memory_usage()))
                 pair_times.append(time.perf_counter() - pair_started)
         write_csv(args.output / "metrics.csv", all_metrics)
         write_csv(args.output / "support.csv", all_support)
