@@ -176,7 +176,7 @@ checkpoint 缺少可核实的训练/选择记录，因此结果只称扩展 dev 
 
 ```powershell
 $py = 'C:\Users\48228\.venvs\ipfn312\Scripts\python.exe'
-& $py -B iPFN_demo/code/sparse_j/scripts/e1_5_star_timing.py --output iPFN_demo/results/e1_5_star_timing_v1_20261025
+& $py -B iPFN_demo/code/sparse_j/scripts/e1_5_star_timing.py --mode pilot --output iPFN_demo/results/e1_5_star_timing_v1_pidfix_next
 ```
 
 监测器固定运行上述 40 次预测，独立新进程，一次模型加载，不增加暖机预测。
@@ -193,3 +193,38 @@ Windows 原生 API 以约 20 ms 采样工作集与私有内存，每任务另有
 不纳入子进程在退出前生成的输出哈希清单。它们不替代内部科学结果验收。
 400 次耗时外推为实测固定开销 +20 次机制生成 +200 组配对 +保守的 10 倍测速验收开销，
 不宣称已经测过正式实验。
+
+### 实际解释器 PID 资源监测修复
+
+原40任务的科学结果保留且验收通过，但旧外部监测使用 `Popen` 的启动器句柄，
+其 CPU 0.03125 秒不代表科研解释器的 CPU 总量。旧结果不覆盖、不回填。
+
+新版监测经标准库 bootstrap 握手获得实际 PID/父 PID，并查询原生可执行文件路径；
+解释器等待监测器打开自身句柄后才导入科研依赖。所有任务的 `resources.process_pid`
+必须与该 PID 一致。启动器 CPU 单独列作 `launcher_cpu_excluded`，不与解释器累加；
+工作集取同一实际进程的原生高水位，不累计采样值或父子工作集。
+
+最终握手在科研脚本返回之后，覆盖导入、推断、输出、Bootstrap、内部严格验收和
+manifest 完成写入。结束暂停时核对外部/内部 CPU；允许两个 Windows 15.625 ms 计费刻度
+或1%的误差，取较大值。结束暂停之后的解释器退出 CPU 另行列出，完整 CPU 从创建至退出读取。
+外部最终验收在监测器进程执行，不混入科研解释器的 CPU/内存统计。
+若退出后内存计数不可用或已重置，会明确标记峰值只覆盖至目标完成边界，而不保证退出清理阶段。
+
+新目录旁的 `_resources` 目录保存 PID 握手、stdout/stderr、原生采样及进程回执；
+已有输出目录或该侧目录存在均拒绝运行。不会自动重试或换种子。
+
+当前仅批准最小验证（机制900、重复0、两次预测）：
+
+```powershell
+& $py -B iPFN_demo/code/sparse_j/scripts/e1_5_star_timing.py --mode smoke --output iPFN_demo/results/e1_5_resource_smoke_pidfix_20261025
+```
+
+资源专项测试不进行预测，包含虚拟环境启动器和直接解释器两条路径，以及目标尾部
+CPU/内存活动、Windows计费粒度、错误PID/CPU/峰值的拒绝测试：
+
+```powershell
+cd iPFN_demo/code/sparse_j
+& $py -B -m unittest scripts.test_e1_5_star_resources scripts.test_e1_5_star -v
+```
+
+40任务必须显式指定 `--mode pilot` 并再次确认；本轮不运行。

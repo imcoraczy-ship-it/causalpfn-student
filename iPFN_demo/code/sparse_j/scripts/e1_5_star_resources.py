@@ -3,6 +3,7 @@ import ctypes
 from ctypes import wintypes
 import os
 import statistics
+from contextlib import contextmanager
 
 
 def physical_memory():
@@ -32,6 +33,8 @@ def memory_usage(handle=None):
 
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     kernel.GetCurrentProcess.restype = wintypes.HANDLE
+    kernel.GetProcessId.argtypes = [wintypes.HANDLE]
+    kernel.GetProcessId.restype = wintypes.DWORD
     process = kernel.GetCurrentProcess() if handle is None else wintypes.HANDLE(int(handle))
     psapi = ctypes.WinDLL("psapi", use_last_error=True)
     psapi.GetProcessMemoryInfo.argtypes = [wintypes.HANDLE, ctypes.c_void_p, wintypes.DWORD]
@@ -40,8 +43,55 @@ def memory_usage(handle=None):
     counters.cb = ctypes.sizeof(counters)
     if not psapi.GetProcessMemoryInfo(process, ctypes.byref(counters), counters.cb):
         raise ctypes.WinError(ctypes.get_last_error())
-    return {name: int(getattr(counters, name)) for name in
-            ("peak_working_set_bytes", "working_set_bytes", "private_bytes")}
+    result = {name: int(getattr(counters, name)) for name in
+              ("peak_working_set_bytes", "working_set_bytes", "private_bytes")}
+    result["process_pid"] = int(kernel.GetProcessId(process))
+    if not result["process_pid"]:
+        raise ctypes.WinError(ctypes.get_last_error())
+    return result
+
+
+@contextmanager
+def process_handle(pid):
+    """Hold the actual interpreter handle through exit; never sum launcher CPU."""
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+    kernel.OpenProcess.restype = wintypes.HANDLE
+    kernel.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel.CloseHandle.restype = wintypes.BOOL
+    handle = kernel.OpenProcess(0x1000 | 0x0010 | 0x100000, False, pid)
+    if not handle:
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        yield handle
+    finally:
+        kernel.CloseHandle(handle)
+
+
+def check_resource_consistency(external_cpu, internal, external_memory, tasks=()):
+    """Allow two Windows 15.625 ms accounting ticks, or 1%, whichever is larger."""
+    tolerance = max(.03125, .01*max(external_cpu, internal["process_cpu_seconds"]))
+    differences = [abs(external_cpu-internal["process_cpu_seconds"]),
+                   abs(internal["native_cpu"]["cpu_seconds"]-internal["process_cpu_seconds"])]
+    if max(differences) > tolerance:
+        raise ValueError(f"External/internal CPU mismatch: {differences}; tolerance={tolerance}")
+    pid = internal["pid"]
+    if external_memory["process_pid"] != pid or internal["memory"]["process_pid"] != pid:
+        raise ValueError("External/internal PID mismatch")
+    if external_memory["peak_working_set_bytes"] < internal["memory"]["peak_working_set_bytes"]:
+        raise ValueError("External peak does not cover the final worker memory checkpoint")
+    for task in tasks:
+        if task["resources"]["process_pid"] != pid:
+            raise ValueError("Task PID differs from actual monitored interpreter")
+        if task["process_cpu_seconds"] > external_cpu+tolerance:
+            raise ValueError("Final CPU total does not cover task CPU")
+        if task["resources"]["peak_working_set_bytes"] > external_memory["peak_working_set_bytes"]:
+            raise ValueError("Final peak memory does not cover task peak")
+    return dict(passed=True, actual_pid=pid, cpu_tolerance_seconds=tolerance,
+                external_minus_internal_cpu_seconds=external_cpu-internal["process_cpu_seconds"],
+                internal_python_minus_native_cpu_seconds=internal["process_cpu_seconds"]-internal["native_cpu"]["cpu_seconds"],
+                task_pid_checks=len(tasks),
+                note="CPU totals are from one actual interpreter only; launcher and worker are never added together.")
 
 
 def cpu_seconds(handle):
@@ -54,6 +104,18 @@ def cpu_seconds(handle):
         raise ctypes.WinError(ctypes.get_last_error())
     convert = lambda value: ((value.dwHighDateTime << 32) + value.dwLowDateTime) / 1e7
     return dict(cpu_seconds=convert(system)+convert(user), user_seconds=convert(user), kernel_seconds=convert(system))
+
+
+def process_image(handle):
+    kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel.QueryFullProcessImageNameW.argtypes = [wintypes.HANDLE, wintypes.DWORD, wintypes.LPWSTR,
+                                                ctypes.POINTER(wintypes.DWORD)]
+    kernel.QueryFullProcessImageNameW.restype = wintypes.BOOL
+    size = wintypes.DWORD(32768)
+    buffer = ctypes.create_unicode_buffer(size.value)
+    if not kernel.QueryFullProcessImageNameW(wintypes.HANDLE(int(handle)), 0, buffer, ctypes.byref(size)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    return buffer.value
 
 
 def memory_trend(tasks):
