@@ -1,0 +1,851 @@
+{
+  "protocol": "e1_5_public_context_evidence_v1",
+  "prepared_date": "2026-10-30",
+  "design": {
+    "mechanism_ids": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010,
+      1011,
+      1012,
+      1013,
+      1014,
+      1015,
+      1016,
+      1017,
+      1018,
+      1019
+    ],
+    "pair_repeat_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "center_states": [
+      0,
+      1
+    ],
+    "contexts": 400,
+    "methods": [
+      "j",
+      "kernel-old",
+      "kernel-new"
+    ],
+    "n_nodes": 200,
+    "n_observed": 50,
+    "effect_order": [
+      "direct",
+      "spillover",
+      "total"
+    ],
+    "interval_level": 0.95
+  },
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "4811240b2e0af4860d2f4444613cd36eb3cbb90f7ceccb430a6b42762b24383e",
+      "bytes": 92,
+      "rows": null,
+      "columns": null,
+      "basis": {
+        "kind": "new public verification/documentation",
+        "source": "prepared for public context evidence; not part of original frozen snapshot"
+      }
+    },
+    {
+      "path": "ate_context_metrics.csv",
+      "sha256": "667253af5de11a0c0e3a3e90a11f6ebea1b25400f291790a83c6ce26f032f8a1",
+      "bytes": 957576,
+      "rows": 3600,
+      "columns": [
+        "family",
+        "mechanism",
+        "repeat",
+        "m_observed",
+        "context_id",
+        "method",
+        "estimand",
+        "effect",
+        "interval_level",
+        "point_requested",
+        "point_valid",
+        "error_sum",
+        "squared_error_sum",
+        "interval_requested",
+        "interval_valid",
+        "covered",
+        "width_sum",
+        "prediction_failure",
+        "interval_status",
+        "bias",
+        "rmse",
+        "coverage",
+        "coverage_including_failures",
+        "mean_width",
+        "interval_success_rate",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "interval_failure",
+        "ate_true",
+        "ate_pred",
+        "ate_lower",
+        "ate_upper"
+      ],
+      "basis": {
+        "kind": "public derived presentation",
+        "source": "formal evaluation/context_metrics.csv + execution metadata + saved truth/prediction ATE scalars",
+        "changed_science_metrics": false,
+        "repeat_values_corrected": 3420,
+        "existing_nan_cells_presented_as_NA": 9600,
+        "baseline_intervals": "N/A, unsupported; not zero coverage"
+      }
+    },
+    {
+      "path": "context_identity.csv",
+      "sha256": "026c7fc2868e61dcaf64146e9caa2746e5227b4ef0d22ea997a2bb6e34626ef8",
+      "bytes": 13048,
+      "rows": 400,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t"
+      ],
+      "basis": {
+        "kind": "minimal metadata projection",
+        "source": "formal execution contexts and all three method receipts; identity fields only",
+        "complete_receipts_included": false
+      }
+    },
+    {
+      "path": "effect_center_leaf_context.csv",
+      "sha256": "11c229dd01ab04cbf52940fbe3c5a72a962647d31cb2ec5d8a145118a674a03a",
+      "bytes": 912968,
+      "rows": 3600,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "method",
+        "center_observed",
+        "category",
+        "n_nodes",
+        "effect",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "center_minus_leaf_bias",
+        "center_minus_leaf_mae",
+        "center_minus_leaf_rmse"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: effect_center_leaf_context.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "effects_context.csv",
+      "sha256": "d127fc82be4dc3a1e4e117d4c5c245115000c04a49a81d462e3c49fcc34a2676",
+      "bytes": 1340583,
+      "rows": 7200,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "method",
+        "center_observed",
+        "category",
+        "n_nodes",
+        "effect",
+        "model_effect_supported",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: effects_context.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "frozen_metrics_context.csv",
+      "sha256": "bdb81f3b87a236ebcad718b78801b0809ff5ce29f04379d41d61a49527e5387c",
+      "bytes": 737927,
+      "rows": 2400,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "method",
+        "center_observed",
+        "category",
+        "arm_rmse",
+        "direct_rmse",
+        "direct_bias",
+        "direct_ate_true",
+        "direct_ate_pred",
+        "spillover_rmse",
+        "spillover_bias",
+        "spillover_ate_true",
+        "spillover_ate_pred",
+        "total_rmse",
+        "total_bias",
+        "total_ate_true",
+        "total_ate_pred"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: frozen_metrics_context.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "README.md",
+      "sha256": "1ebfc4240655eca3609c4045756c35033ac9e945816e20ec9a3515222159ccfc",
+      "bytes": 6529,
+      "rows": null,
+      "columns": null,
+      "basis": {
+        "kind": "new public verification/documentation",
+        "source": "prepared for public context evidence; not part of original frozen snapshot"
+      }
+    },
+    {
+      "path": "response_context.csv",
+      "sha256": "6f24231f4ac2a8d871e2fa69f04fc551cb5a1d971263db5937f1aaf30ffb738f",
+      "bytes": 1686977,
+      "rows": 9600,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "method",
+        "center_observed",
+        "category",
+        "n_nodes",
+        "arm",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: response_context.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "support_context.csv",
+      "sha256": "d09d34e5d21899135bd964011a64891ec01ac5b79d1c79db9b7e4fcacb1d3d18",
+      "bytes": 1225325,
+      "rows": 9600,
+      "columns": [
+        "context_id",
+        "mechanism_id",
+        "pair_repeat_id",
+        "center_t",
+        "method",
+        "center_observed",
+        "category",
+        "arm",
+        "full_graph_count",
+        "observed_count",
+        "empirical_support",
+        "support_reason",
+        "arm_rmse",
+        "structurally_allowed",
+        "assignment_produced",
+        "observed_covered",
+        "model_arm_supported"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: support_context.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "support_paired_arm_contrasts.csv",
+      "sha256": "b9bdc1c85f5293ddd11927fbabe0487e85c2e5ef9f85ec1abac34ba9199ec7a9",
+      "bytes": 194661,
+      "rows": 2400,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "pair_repeat_id",
+        "arm",
+        "structural_rmse",
+        "allowed_rmse",
+        "allowed_empirical_support",
+        "delta"
+      ],
+      "basis": {
+        "kind": "byte-identical copy",
+        "source": "saved node/Support postprocessing: support_paired_arm_contrasts.csv",
+        "private_source_not_included": true
+      }
+    },
+    {
+      "path": "verify_public_evidence.py",
+      "sha256": "604e55a0871ee7f89acfaf3834b750201f4a66af256c6a407ae40a5f03c07dc4",
+      "bytes": 30704,
+      "rows": null,
+      "columns": null,
+      "basis": {
+        "kind": "new public verification/documentation",
+        "source": "prepared for public context evidence; not part of original frozen snapshot"
+      }
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "../node_support/effect_center_leaf_mechanism.csv",
+      "sha256": "1bd47526cceedaf2bc8c0eb1eeb67b9b6f22f1dc9b28911d6cab3c612e0ad05a",
+      "bytes": 96999,
+      "rows": 360,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "center_t",
+        "category",
+        "effect",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "center_minus_leaf_bias",
+        "center_minus_leaf_mae",
+        "center_minus_leaf_rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/effect_center_leaf_overall_by_center.csv",
+      "sha256": "e1e5a8f5e0e50243f75a12c07ad9a5c47004191dbf75023cfb970ea4aec46c22",
+      "bytes": 5040,
+      "rows": 18,
+      "columns": [
+        "method",
+        "center_t",
+        "category",
+        "effect",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "center_minus_leaf_bias",
+        "center_minus_leaf_mae",
+        "center_minus_leaf_rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/effects_mechanism.csv",
+      "sha256": "035dd330d05e7f65b5c6c3925de029ce1b9a699efca25099551aa26b67fd9af8",
+      "bytes": 141646,
+      "rows": 720,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "center_t",
+        "category",
+        "effect",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/effects_overall_by_center.csv",
+      "sha256": "ed4b2085fa7acbe15866e1afcc990111f7e2750fc2343981bca406b015909833",
+      "bytes": 7100,
+      "rows": 36,
+      "columns": [
+        "method",
+        "center_t",
+        "category",
+        "effect",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/frozen_metrics_mechanism.csv",
+      "sha256": "6a0cb1a1bcfd2b841dba8018a80469ab29f13a86489751540406c92c6a52a12b",
+      "bytes": 66420,
+      "rows": 240,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "center_t",
+        "category",
+        "arm_rmse",
+        "direct_rmse",
+        "direct_bias",
+        "direct_ate_true",
+        "direct_ate_pred",
+        "spillover_rmse",
+        "spillover_bias",
+        "spillover_ate_true",
+        "spillover_ate_pred",
+        "total_rmse",
+        "total_bias",
+        "total_ate_true",
+        "total_ate_pred"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/response_mechanism.csv",
+      "sha256": "e83ba22013848f7d559c47c2b260788b480762c75031083c69d3859dcffc7143",
+      "bytes": 183239,
+      "rows": 960,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "center_t",
+        "category",
+        "arm",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/response_overall_by_center.csv",
+      "sha256": "91ece553c8caaf41a5b4218cd9de0f714f4b2f61dae5eaeb9426ad4dc8ae34b6",
+      "bytes": 9158,
+      "rows": 48,
+      "columns": [
+        "method",
+        "center_t",
+        "category",
+        "arm",
+        "n_nodes",
+        "contexts",
+        "mechanisms",
+        "repeats_per_mechanism",
+        "true_mean",
+        "pred_mean",
+        "bias",
+        "mae",
+        "mse",
+        "rmse",
+        "mean_context_rmse",
+        "pooled_rmse"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/support_mechanism.csv",
+      "sha256": "2b13512d8a0880260823e0d43e07085270756493f424a709de02fa0ebcabe3cc",
+      "bytes": 107698,
+      "rows": 960,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "center_t",
+        "category",
+        "arm",
+        "contexts",
+        "mechanisms",
+        "conditional_structural_zero_count",
+        "assignment_zero_count",
+        "observation_sampling_zero_count",
+        "covered_count",
+        "structurally_allowed_count",
+        "assignment_produced_count",
+        "observed_covered_count",
+        "model_supported_count",
+        "mean_full_graph_count",
+        "mean_observed_count",
+        "mean_arm_rmse",
+        "center_observed_rate",
+        "conditional_structural_zero_rate",
+        "assignment_zero_rate",
+        "observation_sampling_zero_rate",
+        "covered_rate",
+        "structurally_allowed_rate",
+        "assignment_produced_rate",
+        "observed_covered_rate",
+        "model_supported_rate"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/support_overall_by_center.csv",
+      "sha256": "b78f6e767c1656d39fb496c1285d2ad88b7cb16e46847f8d9483a8bf6c476be0",
+      "bytes": 7251,
+      "rows": 48,
+      "columns": [
+        "method",
+        "center_t",
+        "category",
+        "arm",
+        "contexts",
+        "mechanisms",
+        "conditional_structural_zero_count",
+        "assignment_zero_count",
+        "observation_sampling_zero_count",
+        "covered_count",
+        "structurally_allowed_count",
+        "assignment_produced_count",
+        "observed_covered_count",
+        "model_supported_count",
+        "mean_full_graph_count",
+        "mean_observed_count",
+        "mean_arm_rmse",
+        "center_observed_rate",
+        "conditional_structural_zero_rate",
+        "assignment_zero_rate",
+        "observation_sampling_zero_rate",
+        "covered_rate",
+        "structurally_allowed_rate",
+        "assignment_produced_rate",
+        "observed_covered_rate",
+        "model_supported_rate"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/support_primary_by_mechanism.csv",
+      "sha256": "569ad45996bcb2aad03b624c1b3014aef1aa33efc24b7d3b52d8a3c14879cf6a",
+      "bytes": 2169,
+      "rows": 60,
+      "columns": [
+        "method",
+        "mechanism_id",
+        "repeats",
+        "primary_delta"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/support_primary_summary.csv",
+      "sha256": "2917cf0a31c3e1e15be3ef92fac3bd3f2d7796601a37a44a2259c2c856885172",
+      "bytes": 592,
+      "rows": 3,
+      "columns": [
+        "method",
+        "mean_delta",
+        "ci95_lower",
+        "ci95_upper",
+        "independent_units",
+        "bootstrap_seed",
+        "bootstrap_draws",
+        "bootstrap_unit",
+        "interpretation"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../node_support/support_reason_counts_by_center.csv",
+      "sha256": "23bf22e80479b129ec637db4c6dc6bbf53c09535261fd92dd48dfa2788c3953c",
+      "bytes": 2618,
+      "rows": 48,
+      "columns": [
+        "method",
+        "center_t",
+        "category",
+        "support_reason",
+        "context_state_cases",
+        "count",
+        "mechanism_equal_rate",
+        "mechanisms"
+      ],
+      "basis": {
+        "kind": "unchanged published summary"
+      }
+    },
+    {
+      "path": "../preview/overall/ate_m50.csv",
+      "sha256": "f2b6efba85ef2dcf566faabd262b65dc89b6ce0473cb4953f5e5054ad1b79964",
+      "bytes": 1323,
+      "rows": 9,
+      "columns": [
+        "method",
+        "m_observed",
+        "effect",
+        "absolute_conditional_bias",
+        "variance_unbiased",
+        "rmse",
+        "mechanisms_used",
+        "mechanisms_expected",
+        "contexts_used",
+        "contexts_expected",
+        "ranked",
+        "interval_level",
+        "interval_requested",
+        "interval_valid",
+        "covered",
+        "coverage",
+        "coverage_including_failures"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/overall/ate_accuracy_source.csv",
+      "sha256": "5b4baa48a0cd2b89c463316ae0633857d4244c88d773fb5b40cb82ab54235868",
+      "bytes": 14998,
+      "rows": 189,
+      "columns": [
+        "method",
+        "estimand",
+        "effect",
+        "metric",
+        "scope",
+        "family",
+        "mechanism",
+        "estimate",
+        "requested",
+        "valid",
+        "contexts",
+        "prediction_failure_contexts",
+        "partial_support"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/center_t0/ate_m50.csv",
+      "sha256": "daaa3f1daec1800daafee5af25fa6eb9778b4fcb2ba0baff7e9f2decae3eb041",
+      "bytes": 1312,
+      "rows": 9,
+      "columns": [
+        "method",
+        "m_observed",
+        "effect",
+        "absolute_conditional_bias",
+        "variance_unbiased",
+        "rmse",
+        "mechanisms_used",
+        "mechanisms_expected",
+        "contexts_used",
+        "contexts_expected",
+        "ranked",
+        "interval_level",
+        "interval_requested",
+        "interval_valid",
+        "covered",
+        "coverage",
+        "coverage_including_failures"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/center_t0/ate_accuracy_source.csv",
+      "sha256": "044aafa131dfdc83af6583ff3fd0f36d81fb0c8623d87f13b85a74314cf91582",
+      "bytes": 14998,
+      "rows": 189,
+      "columns": [
+        "method",
+        "estimand",
+        "effect",
+        "metric",
+        "scope",
+        "family",
+        "mechanism",
+        "estimate",
+        "requested",
+        "valid",
+        "contexts",
+        "prediction_failure_contexts",
+        "partial_support"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/center_t1/ate_m50.csv",
+      "sha256": "6369b826b23dd9701f4d1213aa54b837388d6d351bbfa8df6a14ab1112dcc8fa",
+      "bytes": 1323,
+      "rows": 9,
+      "columns": [
+        "method",
+        "m_observed",
+        "effect",
+        "absolute_conditional_bias",
+        "variance_unbiased",
+        "rmse",
+        "mechanisms_used",
+        "mechanisms_expected",
+        "contexts_used",
+        "contexts_expected",
+        "ranked",
+        "interval_level",
+        "interval_requested",
+        "interval_valid",
+        "covered",
+        "coverage",
+        "coverage_including_failures"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/center_t1/ate_accuracy_source.csv",
+      "sha256": "69679c6dfa51d2824f89d06c1d7a84d99b4cd2048a8f1c18675bf33607874abe",
+      "bytes": 15026,
+      "rows": 189,
+      "columns": [
+        "method",
+        "estimand",
+        "effect",
+        "metric",
+        "scope",
+        "family",
+        "mechanism",
+        "estimate",
+        "requested",
+        "valid",
+        "contexts",
+        "prediction_failure_contexts",
+        "partial_support"
+      ],
+      "basis": {
+        "kind": "unchanged published ATE summary"
+      }
+    },
+    {
+      "path": "../preview/j_coverage_by_mechanism_and_center.csv",
+      "sha256": "c592f8d8e7ae865cba4775bd9562fd5728248a0d87c30a6747d9e98848c938c9",
+      "bytes": 13088,
+      "rows": 180,
+      "columns": [
+        "mechanism",
+        "center_t",
+        "effect",
+        "covered",
+        "interval_requested",
+        "interval_valid",
+        "interval_failed",
+        "mean_width",
+        "mean_error",
+        "truth_below_lower",
+        "truth_above_upper",
+        "opposite_sign_point"
+      ],
+      "basis": {
+        "kind": "unchanged published mechanism-center diagnostic"
+      }
+    }
+  ],
+  "local_source_checks": {
+    "formal_files_hash_checked": 1638,
+    "node_output_hashes_checked": 26,
+    "node_source_csvs_checked": 18,
+    "node_source_field_comparisons": 623745,
+    "receipts_joined": 1200,
+    "missing_or_dropped_records": 0,
+    "predictions_regenerated": false
+  },
+  "integrity_scope": "Public bytes only; no authentication of undisclosed original inputs. No original manifest, complete receipt, raw input arrays or model weights are included.",
+  "manifest_self_hash": "Excluded to avoid circular hashing; use externally reported SHA256 or an audited Git revision."
+}

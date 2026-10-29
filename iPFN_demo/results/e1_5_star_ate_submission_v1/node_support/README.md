@@ -100,7 +100,7 @@ Bootstrap保留整个机制的配对和重复结构，使用固定种子20261025
 
 独立审核直接从保存数组复算全部18份本地CSV，核对623745项字段和原说明43行主要数字，并独立重算三方法Bootstrap。9项原确定性夹具通过；公开测试另加入4项公开汇总检查，共13项，覆盖机制等权、pooled RMSE、Support计数和Bootstrap。具体范围见 [公开审核摘要](AUDIT_PUBLIC.json)。它是经过选择的公开摘要，不是原 manifest、原验收报告或原字节验收记录的替代。
 
-完整原始实验输入、逐节点真值/预测、原始证据ZIP、manifest、receipt、冻结源码ZIP和详细本地审计记录未随PR公开。公开CSV足以复算这里的机制到总体汇总及Bootstrap，但不足以独立核对原逐节点数组或完成完整原始验收；完整复验需要另行获准取得原始证据及匹配资产。
+完整原始实验输入、逐节点真值/预测、原始证据ZIP、manifest、receipt、冻结源码ZIP和详细本地审计记录未随PR公开。新增 [上下文级证据](../context_level/README.md) 后，公开CSV可复算上下文到机制、总体汇总及Bootstrap，并由ATE标量核对覆盖率，但仍不足以独立核对原逐节点数组或完成完整原始验收；完整复验需要另行获准取得原始证据及匹配资产。
 
 ## 公开文件与复用
 
@@ -121,7 +121,7 @@ Bootstrap保留整个机制的配对和重复结构，使用固定种子20261025
 | [support_primary_summary.csv](support_primary_summary.csv) | 3 | 机制Bootstrap区间 |
 | [support_reason_counts_by_center.csv](support_reason_counts_by_center.csv) | 48 | Support原因计数；不是独立样本数 |
 
-分析脚本：[analyze_node_support.py](../../../code/sparse_j/scripts/analyze_node_support.py)；测试：[test_node_support.py](../../../code/sparse_j/scripts/test_node_support.py)。脚本与本地审核版本字节一致，测试仅适配公开纯函数来源和新增公开汇总检查；来源SHA256见公开审核摘要。未公开上下文级CSV，避免重复大表与原始输入披露。
+分析脚本：[analyze_node_support.py](../../../code/sparse_j/scripts/analyze_node_support.py)；测试：[test_node_support.py](../../../code/sparse_j/scripts/test_node_support.py)。脚本与本地审核版本字节一致，测试仅适配公开纯函数来源和新增公开汇总检查；来源SHA256见公开审核摘要。现已另设 [context_level](../context_level/README.md) 提供经审核的上下文级CSV；它们是误差摘要和总体ATE标量，不包含原始事实输入、完整receipt或逐节点数组。
 
 在仓库根目录运行公开确定性测试（只需现有兼容Python和NumPy环境，不安装依赖）：
 
@@ -140,3 +140,9 @@ python -B iPFN_demo/code/sparse_j/scripts/analyze_node_support.py --input <exist
 完整来源哈希检查不会绕过；不需要重新预测。脚本未来运行时会生成包含执行环境的本地provenance，不应未经隐私审查直接公开。
 
 返回 [公开交付范围](../README_PUBLIC.md) 或 [正式ATE结果说明](../../../E1_5_STAR_ATE_RESULTS.md)。
+
+## 上下文证据与审核摘要的扩展
+
+既有12份机制/总体CSV保持原字节。新增的六份上下文/配对CSV为本地已核验分析产物的逐字节副本；另外提供3600条ATE评价和400条最小身份记录。详见 [公开证据清单](../context_level/PUBLIC_EVIDENCE_MANIFEST.json)。新验证器可从上下文记录复算本目录全部表格及Bootstrap；叶子逐节点误差来源和Support原始计数仍不能在缺少原始数组/事实输入时独立重建。
+
+[AUDIT_PUBLIC.json](AUDIT_PUBLIC.json)保留原节点分析审核的历史范围，同时追加本次证据的范围、验证结果和公开文件哈希。它不是原manifest或原始SHA256清单；本次只更新公开展示层校验，不修改原始来源或科学结果。

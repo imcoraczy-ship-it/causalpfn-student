@@ -34,13 +34,13 @@
     "No node-level posterior intervals were generated.",
     "Original ATE Spillover remains 359/400 = 89.75%, below the 90% target.",
     "Twenty mechanisms, not 400 contexts, are the independent units.",
-    "Public CSVs support aggregate and Bootstrap checks, not validation of unavailable raw node arrays.",
+    "Public context CSVs support scalar ATE coverage and context-to-summary/Bootstrap checks; raw individual-node arrays, factual input counts and original receipt authenticity are not independently verifiable from this package.",
     "Complete original inputs, evidence ZIP, source snapshot, manifests, receipts, and detailed local audit logs are not included."
   ],
   "public_delivery": {
     "new_files": 17,
     "modified_files": 2,
-    "published_csvs": 12,
+    "candidate_csv_count": 20,
     "published_csv_rows": {
       "response_mechanism": 960,
       "response_overall_by_center": 48,
@@ -53,9 +53,25 @@
       "frozen_metrics_mechanism": 240,
       "support_primary_by_mechanism": 60,
       "support_primary_summary": 3,
-      "support_reason_counts_by_center": 48
+      "support_reason_counts_by_center": 48,
+      "context_level/ate_context_metrics": 3600,
+      "context_level/context_identity": 400,
+      "context_level/effect_center_leaf_context": 3600,
+      "context_level/effects_context": 7200,
+      "context_level/frozen_metrics_context": 2400,
+      "context_level/response_context": 9600,
+      "context_level/support_context": 9600,
+      "context_level/support_paired_arm_contrasts": 2400
     },
-    "context_level_csvs_published": false
+    "context_level_csvs_prepared_for_publication": true,
+    "counts_scope": "new_files=17 and modified_files=2 describe the initial node/Support increment. The current context-level increment is recorded separately.",
+    "latest_context_level_increment": {
+      "new_files": 12,
+      "modified_files": 4,
+      "cumulative_candidate_files": 63,
+      "publication_state": "prepared for inclusion in personal Fork staging branch; not included in PR #4; will not be pushed to upstream"
+    },
+    "publication_status": "prepared for inclusion in personal Fork staging branch; not included in PR #4; will not be pushed to upstream"
   },
   "source_artifacts": {
     "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_mechanism.csv": {
@@ -205,16 +221,64 @@
       "mode": "raw_bytes"
     },
     "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/README.md": {
-      "sha256": "50cf5f3f2954f6bea1f7a9f7fef1e400075acc034b2d904dc3d28978df64db6e",
+      "sha256": "b921efcd6871ae613bfb8ffff978999f339d0c3659fc4d0b9f700d6b170ccbbc",
       "mode": "raw_bytes"
     },
     "iPFN_demo/E1_5_STAR_ATE_RESULTS.md": {
-      "sha256": "19e7d7b49960be5c3bc9b5700ec7be37d8d6d0de05fb3fdf7f067eb65622fc3c",
+      "sha256": "cf48bbb59f043943bc35811bc99a75702c931e9dc5f40bc6eb49316613a1efcc",
       "mode": "CRLF_to_LF"
     },
     "iPFN_demo/results/e1_5_star_ate_submission_v1/README_PUBLIC.md": {
-      "sha256": "480f687eb5ad79e1a0b73a39bc658faf60c14713d1457aaadffc41e47bfc1141",
+      "sha256": "9db8423911af6c11c6a9ac7f207ae51fa2b98ae51938827665d71bda0a5191dc",
       "mode": "CRLF_to_LF"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/.gitattributes": {
+      "sha256": "4811240b2e0af4860d2f4444613cd36eb3cbb90f7ceccb430a6b42762b24383e",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/ate_context_metrics.csv": {
+      "sha256": "667253af5de11a0c0e3a3e90a11f6ebea1b25400f291790a83c6ce26f032f8a1",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/context_identity.csv": {
+      "sha256": "026c7fc2868e61dcaf64146e9caa2746e5227b4ef0d22ea997a2bb6e34626ef8",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/effect_center_leaf_context.csv": {
+      "sha256": "11c229dd01ab04cbf52940fbe3c5a72a962647d31cb2ec5d8a145118a674a03a",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/effects_context.csv": {
+      "sha256": "d127fc82be4dc3a1e4e117d4c5c245115000c04a49a81d462e3c49fcc34a2676",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/frozen_metrics_context.csv": {
+      "sha256": "bdb81f3b87a236ebcad718b78801b0809ff5ce29f04379d41d61a49527e5387c",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/PUBLIC_EVIDENCE_MANIFEST.json": {
+      "sha256": "1cf9bab9ed1062e8bfcd3ec8569588046f5198aae3fb28f00df686f6ada4b223",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/README.md": {
+      "sha256": "1ebfc4240655eca3609c4045756c35033ac9e945816e20ec9a3515222159ccfc",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/response_context.csv": {
+      "sha256": "6f24231f4ac2a8d871e2fa69f04fc551cb5a1d971263db5937f1aaf30ffb738f",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/support_context.csv": {
+      "sha256": "d09d34e5d21899135bd964011a64891ec01ac5b79d1c79db9b7e4fcacb1d3d18",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/support_paired_arm_contrasts.csv": {
+      "sha256": "b9bdc1c85f5293ddd11927fbabe0487e85c2e5ef9f85ec1abac34ba9199ec7a9",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/verify_public_evidence.py": {
+      "sha256": "604e55a0871ee7f89acfaf3834b750201f4a66af256c6a407ae40a5f03c07dc4",
+      "mode": "raw_bytes"
     }
   },
   "checksum_rules": "CSV and files with node_support local LF attributes use exact raw byte SHA256; Python and the two existing Markdown files use explicitly labelled CRLF-to-LF SHA256 to allow ordinary Git text checkouts. This summary excludes its own hash.",
@@ -227,5 +291,32 @@
   "actions": {
     "new_prediction_training_dgp_or_original_validate": false,
     "git_stage_commit_push_or_pr_update": false
+  },
+  "audit_history_scope": "The original independent_recomputation and original_protection fields describe the prior node-analysis audit; context_level_extension records the new local evidence preparation. Neither is a full original public acceptance bundle.",
+  "context_level_extension": {
+    "protocol": "e1_5_public_context_evidence_v1",
+    "manifest": "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/PUBLIC_EVIDENCE_MANIFEST.json",
+    "manifest_sha256": "1cf9bab9ed1062e8bfcd3ec8569588046f5198aae3fb28f00df686f6ada4b223",
+    "context_rows": 400,
+    "ate_rows": 3600,
+    "public_csv_files": 8,
+    "total_public_csv_rows": 38800,
+    "receipt_identity_projection_only": true,
+    "complete_receipts_public": false,
+    "source_local_checks": {
+      "formal_files_hash_checked": 1638,
+      "node_output_hashes_checked": 26,
+      "node_source_csvs_checked": 18,
+      "node_source_field_comparisons": 623745,
+      "receipts_joined": 1200,
+      "missing_or_dropped_records": 0,
+      "predictions_regenerated": false
+    },
+    "public_self_tests_passed": 10,
+    "additional_in_memory_negative_checks_passed": 8,
+    "published_reference_rows_recomputed": 4275,
+    "verification_passed": true,
+    "original_scientific_results_unchanged": true,
+    "raw_evidence_authentication_not_claimed": true
   }
 }

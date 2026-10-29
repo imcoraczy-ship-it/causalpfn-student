@@ -37,7 +37,7 @@
 
 预览目录通过 [局部 .gitattributes](preview/.gitattributes) 的 `*.svg -text`、`*.csv -text`、`*.tex -text`，关闭13份预览文本（3个SVG、7个CSV、3个TEX）的 Git 自动换行转换，保留工作区现有换行字节。该规则只适用于预览目录，不扩展到代码或其他目录。三个SVG已仅清理行尾空格，因此仍不与来源逐字节一致；其他展示文件未改。
 
-首版公开提交包含34个文件。本次节点/Support补充新增17个公开文件，累计51个文件；原19份ATE展示文件及400个实验上下文均未增加。展示文件不使用原始 manifest 为其字节背书。要验证原实验字节，需要本地保留的原始证据及原校验记录，不能用公开副本代替。
+首版公开提交包含34个文件，节点/Support补充新增17个文件，形成51文件的既有交付。本次上下文证据另新增12个文件，候选累计63个文件；原19份ATE展示文件及400个实验上下文均未增加。新增材料已准备纳入个人 Fork 的 staging 分支，不属于 PR #4，也不会推送至 upstream。展示文件不使用原始 manifest 为其字节背书。要验证原实验字节，需要本地保留的原始证据及原校验记录，不能用公开副本代替。
 
 ## 代码与复验边界
 
@@ -49,16 +49,26 @@
 
 ## 未公开的材料
 
-本公开目录没有原始证据 ZIP、原始校验清单、METADATA_REVIEW.md、metadata_scan.json、manifest、receipt、source_snapshot.zip、数学核验输入、原始 Notebook、模型权重副本或旧 Smoke/timing 结果。不能根据这些材料曾经在本地通过检查，宣称它们已经随 PR 公开交付。
+本公开目录没有原始证据 ZIP、原始校验清单、METADATA_REVIEW.md、metadata_scan.json、原始manifest、完整receipt、source_snapshot.zip、数学核验输入、原始 Notebook、模型权重副本或旧 Smoke/timing 结果。新增PUBLIC_EVIDENCE_MANIFEST.json只校验公开展示材料，不是原始实验manifest。不能根据这些材料曾经在本地通过检查，宣称它们已经随 PR 公开交付。
 
 如需要完整原始证据供评审复验，应另行决定受控提供方式。本 README 是公开范围说明，不是对原始审计材料的替换，也不是已脱敏的原始证据包。
 
 ## 节点误差与 Support 增量
 
-新增 [公开补充分析](node_support/README.md)、12份机制级/总体CSV、[纯后处理脚本](../../code/sparse_j/scripts/analyze_node_support.py) 和 [确定性测试](../../code/sparse_j/scripts/test_node_support.py)。没有复制全部本地27个产物，没有公开上下文级大表、原manifest/receipt或详细本地路径记录；来源与检查范围见 [公开审核摘要](node_support/AUDIT_PUBLIC.json)。
+新增 [公开补充分析](node_support/README.md)、12份机制级/总体CSV、[纯后处理脚本](../../code/sparse_j/scripts/analyze_node_support.py) 和 [确定性测试](../../code/sparse_j/scripts/test_node_support.py)。节点/Support首版没有复制全部本地27个产物。本次新增的上下文级材料见下节；原manifest、完整receipt及详细本地路径记录仍未公开。来源与检查范围见 [公开审核摘要](node_support/AUDIT_PUBLIC.json)。
 
 中心与叶子分别统计响应和Direct/Spillover/Total节点效应误差。J的叶子Spillover和Total误差高于中心；T=1下两个核baseline的叶子Spillover和Total RMSE低于J。Support四类保留冻结语义，中心观测单列，模型能力标记与经验Support分开。配对Support差值只反映条件关联，**不是Support因果效应**。主汇总为机制等权平均上下文RMSE，另列pooled RMSE，不能混用。
 
-没有生成节点级后验区间。原正式ATE结果不变，Spillover仍为 **359/400=89.75%，未达到90%目标**。公开CSV支持机制到总体和Bootstrap复算；完整原始输入及证据ZIP未随PR提供，不能宣称仅凭公开材料即可完成完整原始验收。
+没有生成节点级后验区间。原正式ATE结果不变，Spillover仍为 **359/400=89.75%，未达到90%目标**。公开CSV现支持上下文到机制、总体及Bootstrap复算，以及从公开ATE标量核对覆盖率；完整原始输入及证据ZIP仍未随PR提供，不能宣称仅凭公开材料即可完成完整原始验收。
 
 新 `node_support/` 目录的局部属性仅对其CSV关闭自动换行转换，并将该目录说明/公开审核JSON固定为LF；原 `preview/` 的13份文件规则和展示字节未改。
+
+## 上下文级公开证据候选
+
+新增 [context_level说明](context_level/README.md)、[公开清单](context_level/PUBLIC_EVIDENCE_MANIFEST.json) 及 [只读验证器](context_level/verify_public_evidence.py)。8份CSV共38800行：400行最小身份投影、3600行ATE、五类节点/Support上下文表及2400行既有配对差值。没有新增实验样本或重新推断。
+
+ATE表的repeat和pair_repeat_id均取真实配对编号，center_t显式保存，context_id不变；baseline不支持的区间标量及比率为N/A，不填零。新增总体ATE真值、点估计和端点标量，使覆盖判断可独立复算；这不等于公开逐节点预测数组，也没有节点级后验区间。
+
+可复算范围为上下文/方法/效应完整性、ATE误差/覆盖/失败分母、上下文到机制及总体汇总、Support分类一致性、配对差值与整机制Bootstrap，以及既有图表源CSV和分机制诊断。原始receipt一致性已在本地核验；公开身份投影不能替代对私有receipt真实性的独立核对。叶子原始误差和Support原始计数仍需未公开的节点数组及事实输入。
+
+新公开哈希只证明公开文件本身完整，不能冒充原始输入或完整冻结验收证明。20机制独立单位、配对依赖和Support非因果解释不变。Spillover仍为 **359/400=89.75%，未达到90%目标**。新增材料已准备纳入个人 Fork 的 staging 分支，不属于 PR #4，也不会推送至 upstream。
