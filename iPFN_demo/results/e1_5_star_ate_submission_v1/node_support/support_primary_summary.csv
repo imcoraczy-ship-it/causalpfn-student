@@ -1,0 +1,4 @@
+method,mean_delta,ci95_lower,ci95_upper,independent_units,bootstrap_seed,bootstrap_draws,bootstrap_unit,interpretation
+j,0.3930207825826943,0.2769442650457308,0.5266056454888187,20,2026102502,10000,whole mechanism,Conditional association; not a causal effect of Support
+kernel-old,0.35456627091717985,0.2266377893036474,0.5123425325266698,20,2026102502,10000,whole mechanism,Conditional association; not a causal effect of Support
+kernel-new,0.3617168623241385,0.23349792613055775,0.5059452324103498,20,2026102502,10000,whole mechanism,Conditional association; not a causal effect of Support

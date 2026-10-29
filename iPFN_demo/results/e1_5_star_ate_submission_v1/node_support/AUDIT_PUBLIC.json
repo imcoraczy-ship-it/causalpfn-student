@@ -1,0 +1,231 @@
+{
+  "document_kind": "Public audit summary, not the original manifest or full original acceptance report",
+  "protocol": "e1_5_star_saved_node_support_v1",
+  "scientific_review": "PASS",
+  "design": {
+    "mechanisms": 20,
+    "paired_repeats": 200,
+    "contexts": 400,
+    "method_contexts": 1200,
+    "methods": [
+      "j",
+      "kernel-old",
+      "kernel-new"
+    ]
+  },
+  "independent_recomputation": {
+    "local_csvs_verified": 18,
+    "field_comparisons": 623745,
+    "local_markdown_numeric_rows_verified": 43,
+    "original_fixture_tests_passed": 9,
+    "public_fixture_and_summary_tests_passed": 13,
+    "private_input_needed_for_default_public_tests": false,
+    "output_hashes_checked": 26,
+    "formal_input_hashes_checked": 1638
+  },
+  "bootstrap": {
+    "seed": 2026102502,
+    "draws": 10000,
+    "unit": "whole mechanism",
+    "interval": "percentile 2.5%,97.5%; linear quantiles",
+    "interpretation": "Conditional association, not a causal effect of Support"
+  },
+  "scientific_limits": [
+    "No node-level posterior intervals were generated.",
+    "Original ATE Spillover remains 359/400 = 89.75%, below the 90% target.",
+    "Twenty mechanisms, not 400 contexts, are the independent units.",
+    "Public CSVs support aggregate and Bootstrap checks, not validation of unavailable raw node arrays.",
+    "Complete original inputs, evidence ZIP, source snapshot, manifests, receipts, and detailed local audit logs are not included."
+  ],
+  "public_delivery": {
+    "new_files": 17,
+    "modified_files": 2,
+    "published_csvs": 12,
+    "published_csv_rows": {
+      "response_mechanism": 960,
+      "response_overall_by_center": 48,
+      "effects_mechanism": 720,
+      "effects_overall_by_center": 36,
+      "effect_center_leaf_mechanism": 360,
+      "effect_center_leaf_overall_by_center": 18,
+      "support_mechanism": 960,
+      "support_overall_by_center": 48,
+      "frozen_metrics_mechanism": 240,
+      "support_primary_by_mechanism": 60,
+      "support_primary_summary": 3,
+      "support_reason_counts_by_center": 48
+    },
+    "context_level_csvs_published": false
+  },
+  "source_artifacts": {
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_mechanism.csv": {
+      "source_file": "response_mechanism.csv",
+      "source_sha256": "e83ba22013848f7d559c47c2b260788b480762c75031083c69d3859dcffc7143",
+      "prepared_sha256": "e83ba22013848f7d559c47c2b260788b480762c75031083c69d3859dcffc7143",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_overall_by_center.csv": {
+      "source_file": "response_overall_by_center.csv",
+      "source_sha256": "91ece553c8caaf41a5b4218cd9de0f714f4b2f61dae5eaeb9426ad4dc8ae34b6",
+      "prepared_sha256": "91ece553c8caaf41a5b4218cd9de0f714f4b2f61dae5eaeb9426ad4dc8ae34b6",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effects_mechanism.csv": {
+      "source_file": "effects_mechanism.csv",
+      "source_sha256": "035dd330d05e7f65b5c6c3925de029ce1b9a699efca25099551aa26b67fd9af8",
+      "prepared_sha256": "035dd330d05e7f65b5c6c3925de029ce1b9a699efca25099551aa26b67fd9af8",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effects_overall_by_center.csv": {
+      "source_file": "effects_overall_by_center.csv",
+      "source_sha256": "ed4b2085fa7acbe15866e1afcc990111f7e2750fc2343981bca406b015909833",
+      "prepared_sha256": "ed4b2085fa7acbe15866e1afcc990111f7e2750fc2343981bca406b015909833",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effect_center_leaf_mechanism.csv": {
+      "source_file": "effect_center_leaf_mechanism.csv",
+      "source_sha256": "1bd47526cceedaf2bc8c0eb1eeb67b9b6f22f1dc9b28911d6cab3c612e0ad05a",
+      "prepared_sha256": "1bd47526cceedaf2bc8c0eb1eeb67b9b6f22f1dc9b28911d6cab3c612e0ad05a",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effect_center_leaf_overall_by_center.csv": {
+      "source_file": "effect_center_leaf_overall_by_center.csv",
+      "source_sha256": "e1e5a8f5e0e50243f75a12c07ad9a5c47004191dbf75023cfb970ea4aec46c22",
+      "prepared_sha256": "e1e5a8f5e0e50243f75a12c07ad9a5c47004191dbf75023cfb970ea4aec46c22",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_mechanism.csv": {
+      "source_file": "support_mechanism.csv",
+      "source_sha256": "2b13512d8a0880260823e0d43e07085270756493f424a709de02fa0ebcabe3cc",
+      "prepared_sha256": "2b13512d8a0880260823e0d43e07085270756493f424a709de02fa0ebcabe3cc",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_overall_by_center.csv": {
+      "source_file": "support_overall_by_center.csv",
+      "source_sha256": "b78f6e767c1656d39fb496c1285d2ad88b7cb16e46847f8d9483a8bf6c476be0",
+      "prepared_sha256": "b78f6e767c1656d39fb496c1285d2ad88b7cb16e46847f8d9483a8bf6c476be0",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/frozen_metrics_mechanism.csv": {
+      "source_file": "frozen_metrics_mechanism.csv",
+      "source_sha256": "6a0cb1a1bcfd2b841dba8018a80469ab29f13a86489751540406c92c6a52a12b",
+      "prepared_sha256": "6a0cb1a1bcfd2b841dba8018a80469ab29f13a86489751540406c92c6a52a12b",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_primary_by_mechanism.csv": {
+      "source_file": "support_primary_by_mechanism.csv",
+      "source_sha256": "569ad45996bcb2aad03b624c1b3014aef1aa33efc24b7d3b52d8a3c14879cf6a",
+      "prepared_sha256": "569ad45996bcb2aad03b624c1b3014aef1aa33efc24b7d3b52d8a3c14879cf6a",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_primary_summary.csv": {
+      "source_file": "support_primary_summary.csv",
+      "source_sha256": "2917cf0a31c3e1e15be3ef92fac3bd3f2d7796601a37a44a2259c2c856885172",
+      "prepared_sha256": "2917cf0a31c3e1e15be3ef92fac3bd3f2d7796601a37a44a2259c2c856885172",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_reason_counts_by_center.csv": {
+      "source_file": "support_reason_counts_by_center.csv",
+      "source_sha256": "23bf22e80479b129ec637db4c6dc6bbf53c09535261fd92dd48dfa2788c3953c",
+      "prepared_sha256": "23bf22e80479b129ec637db4c6dc6bbf53c09535261fd92dd48dfa2788c3953c",
+      "relationship": "byte-identical selected local supplementary CSV"
+    },
+    "iPFN_demo/code/sparse_j/scripts/analyze_node_support.py": {
+      "source_file": "analyze_node_support.py",
+      "source_sha256": "f83b9e7b3047e5eb22a527666902f3b1a696127b3d4d92432711b46e36716b24",
+      "prepared_sha256": "f83b9e7b3047e5eb22a527666902f3b1a696127b3d4d92432711b46e36716b24",
+      "relationship": "byte-identical analysis script"
+    },
+    "iPFN_demo/code/sparse_j/scripts/test_node_support.py": {
+      "source_file": "test_node_support.py",
+      "source_sha256": "8b6a7bb2fde76bd2bff1a9d034dac60843e3dc041e725031cf246421b8c9f147",
+      "prepared_sha256": "681f15ce4bf8cc59b370cb61641597fb35d4fa06b804b1e4dc712a516991b9a4",
+      "relationship": "original nine fixtures retained; public-only source loading plus four public summary tests"
+    }
+  },
+  "prepared_file_checksums": {
+    "iPFN_demo/code/sparse_j/scripts/analyze_node_support.py": {
+      "sha256": "f83b9e7b3047e5eb22a527666902f3b1a696127b3d4d92432711b46e36716b24",
+      "mode": "CRLF_to_LF"
+    },
+    "iPFN_demo/code/sparse_j/scripts/test_node_support.py": {
+      "sha256": "681f15ce4bf8cc59b370cb61641597fb35d4fa06b804b1e4dc712a516991b9a4",
+      "mode": "CRLF_to_LF"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_mechanism.csv": {
+      "sha256": "e83ba22013848f7d559c47c2b260788b480762c75031083c69d3859dcffc7143",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_overall_by_center.csv": {
+      "sha256": "91ece553c8caaf41a5b4218cd9de0f714f4b2f61dae5eaeb9426ad4dc8ae34b6",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effects_mechanism.csv": {
+      "sha256": "035dd330d05e7f65b5c6c3925de029ce1b9a699efca25099551aa26b67fd9af8",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effects_overall_by_center.csv": {
+      "sha256": "ed4b2085fa7acbe15866e1afcc990111f7e2750fc2343981bca406b015909833",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effect_center_leaf_mechanism.csv": {
+      "sha256": "1bd47526cceedaf2bc8c0eb1eeb67b9b6f22f1dc9b28911d6cab3c612e0ad05a",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/effect_center_leaf_overall_by_center.csv": {
+      "sha256": "e1e5a8f5e0e50243f75a12c07ad9a5c47004191dbf75023cfb970ea4aec46c22",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_mechanism.csv": {
+      "sha256": "2b13512d8a0880260823e0d43e07085270756493f424a709de02fa0ebcabe3cc",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_overall_by_center.csv": {
+      "sha256": "b78f6e767c1656d39fb496c1285d2ad88b7cb16e46847f8d9483a8bf6c476be0",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/frozen_metrics_mechanism.csv": {
+      "sha256": "6a0cb1a1bcfd2b841dba8018a80469ab29f13a86489751540406c92c6a52a12b",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_primary_by_mechanism.csv": {
+      "sha256": "569ad45996bcb2aad03b624c1b3014aef1aa33efc24b7d3b52d8a3c14879cf6a",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_primary_summary.csv": {
+      "sha256": "2917cf0a31c3e1e15be3ef92fac3bd3f2d7796601a37a44a2259c2c856885172",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/support_reason_counts_by_center.csv": {
+      "sha256": "23bf22e80479b129ec637db4c6dc6bbf53c09535261fd92dd48dfa2788c3953c",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/.gitattributes": {
+      "sha256": "61d219413ef4145bb776d052dcd4fbbba2cd82daead0c89f9edcaa8b2020a899",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/README.md": {
+      "sha256": "50cf5f3f2954f6bea1f7a9f7fef1e400075acc034b2d904dc3d28978df64db6e",
+      "mode": "raw_bytes"
+    },
+    "iPFN_demo/E1_5_STAR_ATE_RESULTS.md": {
+      "sha256": "19e7d7b49960be5c3bc9b5700ec7be37d8d6d0de05fb3fdf7f067eb65622fc3c",
+      "mode": "CRLF_to_LF"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/README_PUBLIC.md": {
+      "sha256": "480f687eb5ad79e1a0b73a39bc658faf60c14713d1457aaadffc41e47bfc1141",
+      "mode": "CRLF_to_LF"
+    }
+  },
+  "checksum_rules": "CSV and files with node_support local LF attributes use exact raw byte SHA256; Python and the two existing Markdown files use explicitly labelled CRLF-to-LF SHA256 to allow ordinary Git text checkouts. This summary excludes its own hash.",
+  "original_protection": {
+    "protected_file_hashes_unchanged": 2299,
+    "original_branch_unchanged": true,
+    "original_head_unchanged": true,
+    "original_status_and_index_unchanged": true
+  },
+  "actions": {
+    "new_prediction_training_dgp_or_original_validate": false,
+    "git_stage_commit_push_or_pr_update": false
+  }
+}
