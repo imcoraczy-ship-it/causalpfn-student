@@ -1,0 +1,44 @@
+\begin{table}[tb]
+\centering
+\caption{ATE accuracy with 50 observed outcomes.}
+\begingroup\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l*{9}{r}@{}}
+\toprule
+&\multicolumn{3}{c}{Direct}&\multicolumn{3}{c}{Treated spillover}&\multicolumn{3}{c}{Total}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+Method&$|\mathrm{Bias}|$&Variance&RMSE&$|\mathrm{Bias}|$&Variance&RMSE&$|\mathrm{Bias}|$&Variance&RMSE\\
+\midrule
+iPFN-J & \cellcolor{blue!24}\textbf{0.1455} & \cellcolor{blue!11}0.0552 & \cellcolor{blue!11}0.3095 & \cellcolor{blue!11}0.5956 & \cellcolor{blue!24}\textbf{0.0398} & \cellcolor{blue!24}\textbf{0.7750} & \cellcolor{blue!17}0.5654 & \cellcolor{blue!24}\textbf{0.1423} & \cellcolor{blue!24}\textbf{0.7802} \\
+Kernel prior & \cellcolor{blue!11}0.1736 & \cellcolor{blue!17}0.0486 & \cellcolor{blue!17}0.3086 & \cellcolor{blue!24}\textbf{0.5393} & \cellcolor{blue!11}0.0825 & \cellcolor{blue!17}0.7855 & \cellcolor{blue!24}\textbf{0.5275} & \cellcolor{blue!17}0.1450 & \cellcolor{blue!17}0.8051 \\
+Calibrated kernel & \cellcolor{blue!17}0.1565 & \cellcolor{blue!24}\textbf{0.0475} & \cellcolor{blue!24}\textbf{0.2978} & \cellcolor{blue!17}0.5815 & \cellcolor{blue!17}0.0657 & \cellcolor{blue!11}0.7955 & \cellcolor{blue!11}0.5801 & \cellcolor{blue!11}0.1509 & \cellcolor{blue!11}0.8234 \\
+\bottomrule
+\end{tabular*}\endgroup
+\vspace{3pt}
+\begin{minipage}{\linewidth}\scriptsize
+Bias is mean absolute conditional bias; variance uses the $R-1$ divisor within each mechanism.
+Mechanisms are equally weighted; RMSE takes the root after pooling squared errors.
+$^{\dagger}$Incomplete support: values condition on mechanisms with all recorded repeats valid and are unranked.
+-- indicates no complete supported mechanism, or fewer than two repeats for variance.
+Numeric support counts and interval coverage are provided in the accompanying CSV.
+\end{minipage}
+\end{table}
+
+\begin{table}[tb]
+\centering
+\caption{ATE interval coverage at nominal 95\%, with 50 observed outcomes.}
+\begin{tabular}{lrrr}
+\toprule
+Method & Direct & Treated spillover & Total \\
+\midrule
+iPFN-J & 96.50\% & 89.75\% & 93.25\% \\
+Kernel prior & -- & -- & -- \\
+Calibrated kernel & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\begin{minipage}{\linewidth}\scriptsize
+Coverage includes failed requested intervals in the denominator. -- means intervals are unsupported.
+These are marginal posterior intervals; nominal coverage is not a frequentist guarantee.
+\end{minipage}
+\end{table}

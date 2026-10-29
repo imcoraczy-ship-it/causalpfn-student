@@ -1,0 +1,4 @@
+# These text files are verified by their exact LF bytes at runtime.
+iPFN_demo/code/sparse_j/models/kernel_components.json text eol=lf
+iPFN_demo/code/sparse_j/models/kernel_mixture.json text eol=lf
+iPFN_demo/code/sparse_j/regional_inference.py text eol=lf
