@@ -173,6 +173,116 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(row['mechanisms_used'], 1)
 
 
+class RepeatMetadataTests(unittest.TestCase):
+    def prediction(self, center, method='j', *, fail_point=False, fail_interval=False):
+        truth = np.tile([0., 2., 1., 3.], (adapter.N, 1))
+        inputs = dict(x=np.zeros((adapter.N, 20)))  # Fake predictors do not inspect a DGP.
+        def fail(*args, **kwargs):
+            raise RuntimeError('Synthetic metadata fixture failure')
+        point, receipt = adapter.predict_record(
+            method, None, inputs, adapter.context_id(900, 2, center), 900, 2, center,
+            predictor=fail if fail_point else fake_predictor,
+            interval_predictor=fail if fail_interval else fake_interval)
+        return truth, point, receipt
+
+    def assert_rows_same(self, before, after, ignored=()):
+        self.assertEqual(len(before), len(after))
+        for old, new in zip(before, after):
+            self.assertEqual(set(old)-set(ignored), set(new)-set(ignored))
+            for field in set(old)-set(ignored):
+                if isinstance(old[field], (float, np.floating)):
+                    np.testing.assert_equal(old[field], new[field], err_msg=field)
+                else:
+                    self.assertEqual(old[field], new[field], field)
+
+    def test_receipt_repeat_two_preserves_encoded_context_ids(self):
+        for center in (0, 1):
+            truth, point, receipt = self.prediction(center)
+            original = dict(receipt)
+            rows = evaluate_context(truth, point, receipt)
+            self.assertTrue(all(r['repeat'] == 4+center for r in rows))
+            metadata = adapter.receipt_metadata(receipt)
+            self.assertEqual(metadata, dict(repeat=2, pair_repeat_id=2, center_t=center))
+            self.assertEqual(receipt, original)
+            self.assertEqual(receipt['context_id'], f'f0_m900_r{4+center}_observed50')
+
+    def test_metadata_only_changes_leave_metrics_statuses_and_summaries_unchanged(self):
+        before, after = [], []
+        for center in (0, 1):
+            for method in adapter.METHODS:
+                for bad_point, bad_interval in ((False, False), (True, False), (False, True)):
+                    truth, point, receipt = self.prediction(
+                        center, method, fail_point=bad_point, fail_interval=bad_interval)
+                    rows = evaluate_context(truth, point, receipt)
+                    corrected = [dict(r, **adapter.receipt_metadata(receipt)) for r in rows]
+                    self.assert_rows_same(rows, corrected, ('repeat', 'pair_repeat_id', 'center_t'))
+                    before.extend(rows);after.extend(corrected)
+        for name in ('summary', 'summary_by_family', 'summary_by_mechanism'):
+            self.assert_rows_same(adapter.evaluation_tables(before)[name],
+                                  adapter.evaluation_tables(after)[name])
+        self.assert_rows_same(ate_table(before, 50), ate_table(after, 50))
+
+    def test_missing_invalid_and_conflicting_receipt_metadata_rejected(self):
+        _, _, good = self.prediction(0)
+        for field in ('mechanism_id', 'pair_repeat_id', 'center_t'):
+            for value in (None, -1, True, 2.0, '2'):
+                with self.subTest(field=field, value=value):
+                    bad = dict(good);bad[field] = value
+                    with self.assertRaisesRegex(ValueError, 'receipt|Receipt'):
+                        adapter.receipt_metadata(bad)
+            bad = dict(good);del bad[field]
+            with self.assertRaisesRegex(ValueError, field):
+                adapter.receipt_metadata(bad)
+        for changes in ({'center_t': 2}, {'center_t': 1}, {'pair_repeat_id': 3},
+                        {'mechanism_id': 901}, {'context_id': 'f0_m900_r5_observed50'},
+                        {'context_id': None}, {'method': 'unknown'}):
+            with self.subTest(changes=changes):
+                with self.assertRaisesRegex(ValueError, 'receipt|Receipt'):
+                    adapter.receipt_metadata(dict(good, **changes))
+        with tempfile.TemporaryDirectory(prefix='star_repeat_rejected_') as temp:
+            bad = dict(good);del bad['pair_repeat_id']
+            with self.assertRaisesRegex(ValueError, 'pair_repeat_id'):
+                adapter.score_saved(Path(temp), [bad])  # Reject before opening arrays.
+
+    def test_actual_overall_and_center_csv_export_matches_execution_receipts(self):
+        with tempfile.TemporaryDirectory(prefix='star_repeat_export_') as temp:
+            output = Path(temp)
+            for child in ('truth', 'predictions'):
+                (output/child).mkdir()
+            receipts, generic = [], []
+            for center in (0, 1):
+                for method in adapter.METHODS:
+                    truth, point, receipt = self.prediction(center, method)
+                    np.savez_compressed(output/'truth'/'f0_m900.npz', arm_means=truth)
+                    np.savez_compressed(output/'predictions'/
+                                        (receipt['context_id']+'__'+method+'.npz'), **point)
+                    receipts.append(receipt)
+                    generic.extend(evaluate_context(truth, point, receipt))
+            adapter.write_json(output/'execution.json', dict(receipts=receipts))
+            adapter.write_views(output, dict(receipts=receipts))
+            index = {(r['context_id'], r['method']): r for r in
+                     json.loads((output/'execution.json').read_text())['receipts']}
+            for center in (None, 0, 1):
+                directory = output if center is None else output/'report_views'/f'center_t{center}'
+                with (directory/'evaluation'/'context_metrics.csv').open(encoding='utf-8', newline='') as handle:
+                    rows = list(csv.DictReader(handle))
+                self.assertEqual(len(rows), 18 if center is None else 9)
+                for row in rows:
+                    receipt = index[row['context_id'], row['method']]
+                    self.assertEqual(int(row['repeat']), receipt['pair_repeat_id'])
+                    self.assertEqual(int(row['pair_repeat_id']), 2)
+                    self.assertEqual(int(row['center_t']), receipt['center_t'])
+                    self.assertEqual(row['context_id'], adapter.context_id(900, 2, receipt['center_t']))
+                    if center is not None:
+                        self.assertEqual(int(row['center_t']), center)
+                original = generic if center is None else [r for r in generic if index[r['context_id'], r['method']]['center_t'] == center]
+                # Exercise strict CSV comparison for every exported numeric/status field.
+                for name, wanted in adapter.evaluation_tables(original).items():
+                    if name == 'context_metrics':
+                        wanted = [dict(r, **adapter.receipt_metadata(index[r['context_id'], r['method']])) for r in wanted]
+                    adapter._check_csv(directory/'evaluation'/(name+'.csv'), wanted)
+
+
 class IntervalMathTests(unittest.TestCase):
     def test_single_gaussian_quantiles_and_mixture_cdf(self):
         lo, hi = mixture_interval(np.array([[1., 2., 3.]]), np.array([[4., 4., 4.]]), np.array([1.]))
@@ -228,6 +338,42 @@ class ArtifactTests(unittest.TestCase):
         import matplotlib.pyplot as plt
         plt.close(fig)
         self.assertTrue(source)
+
+    def test_receipt_pair_metadata_rejected_by_strict_acceptance(self):
+        original = (self.output/'execution.json').read_text(encoding='utf-8')
+        for field, value in [('pair_repeat_id', None), ('pair_repeat_id', 2),
+                             ('pair_repeat_id', True), ('center_t', None), ('center_t', 2)]:
+            with self.subTest(field=field, value=value):
+                execution = json.loads(original)
+                if value is None:
+                    del execution['receipts'][0][field]
+                else:
+                    execution['receipts'][0][field] = value
+                adapter.write_json(self.output/'execution.json', execution)
+                self.resign('execution.json')  # Only this disposable fake artifact.
+                with self.assertRaisesRegex(ValueError, 'receipt|Receipt'):
+                    adapter.validate_result(self.output)
+
+    def test_exported_pair_metadata_rejected_by_strict_acceptance(self):
+        for name in ('evaluation/context_metrics.csv',
+                     'report_views/center_t0/evaluation/context_metrics.csv'):
+            original = (self.output/name).read_bytes()
+            for field in ('repeat', 'pair_repeat_id', 'center_t'):
+                for missing in (False, True):
+                    with self.subTest(path=name, field=field, missing=missing):
+                        with (self.output/name).open(encoding='utf-8', newline='') as handle:
+                            rows = list(csv.DictReader(handle))
+                        if missing:
+                            for row in rows:
+                                del row[field]
+                        else:
+                            rows[0][field] = '999'
+                        adapter.write_csv(self.output/name, rows)
+                        self.resign(name)  # Test that hashes alone cannot hide invalid metadata.
+                        with self.assertRaisesRegex(ValueError, 'CSV'):
+                            adapter.validate_result(self.output)
+                        (self.output/name).write_bytes(original)
+                        self.resign(name)
 
     def test_hash_tampering(self):
         with (self.output/'execution.json').open('a') as handle:

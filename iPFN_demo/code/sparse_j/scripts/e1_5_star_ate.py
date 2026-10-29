@@ -24,7 +24,7 @@ import numpy as np
 import torch
 from threadpoolctl import threadpool_limits
 from benchmark import configuration, load_methods, predict_method, source_directory
-from evaluate import evaluate_context, evaluate_run, summarize
+from evaluate import evaluate_context, summarize
 from make_table import read_results
 from pfn_social.intervals import predict_intervals
 from pfn_social.phase6_sparse_classical import pack
@@ -132,15 +132,32 @@ def predict_record(name, model, inputs, cid, mid, rid, center, *, predictor=None
     return payload, receipt
 
 
+def receipt_metadata(receipt):
+    """Use explicit pair metadata; the ID repeat encodes both repeat and center."""
+    for field in ('mechanism_id', 'pair_repeat_id', 'center_t'):
+        value = receipt.get(field)
+        if type(value) is not int or value < 0:
+            raise ValueError(f'Invalid or missing receipt {field}: {value!r}')
+    mid, rid, center = (receipt[k] for k in ('mechanism_id', 'pair_repeat_id', 'center_t'))
+    if center not in (0, 1):
+        raise ValueError(f'Invalid receipt center_t: {center!r}')
+    if receipt.get('context_id') != context_id(mid, rid, center):
+        raise ValueError('Receipt context_id disagrees with mechanism_id/pair_repeat_id/center_t')
+    if receipt.get('method') not in METHODS:
+        raise ValueError('Invalid or missing receipt method')
+    return dict(repeat=rid, pair_repeat_id=rid, center_t=center)
+
+
 def score_saved(directory, receipts):
     rows = []
     for receipt in receipts:
+        pair_metadata = receipt_metadata(receipt)
         mid, cid, method = receipt['mechanism_id'], receipt['context_id'], receipt['method']
         with np.load(directory/'truth'/f'f0_m{mid}.npz', allow_pickle=False) as saved:
             truth = saved['arm_means']
         with np.load(directory/'predictions'/f'{cid}__{method}.npz', allow_pickle=False) as saved:
             prediction = {k: saved[k] for k in saved.files}
-        rows.extend(evaluate_context(truth, prediction, receipt))
+        rows.extend(dict(row, **pair_metadata) for row in evaluate_context(truth, prediction, receipt))
     return rows
 
 
@@ -151,7 +168,11 @@ def evaluation_tables(rows):
 
 
 def write_views(directory, execution):
+    """Export overall and center views from the same receipt-corrected rows."""
     rows = score_saved(directory, execution['receipts'])
+    (directory/'evaluation').mkdir(exist_ok=False)
+    for name, members in evaluation_tables(rows).items():
+        write_csv(directory/'evaluation'/(name+'.csv'), members)
     for center in (0, 1):
         view = directory/'report_views'/f'center_t{center}'
         (view/'evaluation').mkdir(parents=True, exist_ok=False)
@@ -210,6 +231,8 @@ def validate_result(directory, *, candidate=False):
     expected = {(context_id(m, r, c), name) for m in plan['mechanism_ids']
                 for r in plan['pair_repeat_ids'] for c in (0, 1) for name in METHODS}
     receipts = execution['receipts']
+    for receipt in receipts:
+        receipt_metadata(receipt)
     index = {(r['context_id'], r['method']): r for r in receipts}
     _require(len(index) == len(receipts) and set(index) == expected, 'Missing/duplicate/unexpected method-contexts')
     contexts = execution['contexts']
@@ -348,7 +371,6 @@ def run_experiment(output, cohort='smoke'):
                          no_training_of_pretrained_J_or_kernel_parameters=True, no_hidden_outcomes_supplied=True)
         write_json(output/'execution.json', execution)
         began = time.perf_counter()
-        evaluate_run(output)
         write_views(output, execution)
         evaluation_seconds = time.perf_counter()-began
         manifest['timing'] = dict(generation_seconds=generation_times, pair_seconds=pair_times,
