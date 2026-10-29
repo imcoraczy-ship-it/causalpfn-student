@@ -69,9 +69,10 @@
       "new_files": 12,
       "modified_files": 4,
       "cumulative_candidate_files": 63,
-      "publication_state": "prepared for inclusion in personal Fork staging branch; not included in PR #4; will not be pushed to upstream"
+      "publication_state": "pushed to personal Fork staging in commit 1dd5e276f816f5dc4766b4d2117ff7dc2f869aa3; not included in PR #4; no upstream push"
     },
-    "publication_status": "prepared for inclusion in personal Fork staging branch; not included in PR #4; will not be pushed to upstream"
+    "publication_status": "pushed to personal Fork staging in commit 1dd5e276f816f5dc4766b4d2117ff7dc2f869aa3; not included in PR #4; no upstream push",
+    "context_level_csvs_pushed_to_fork_staging": true
   },
   "source_artifacts": {
     "iPFN_demo/results/e1_5_star_ate_submission_v1/node_support/response_mechanism.csv": {
@@ -225,11 +226,11 @@
       "mode": "raw_bytes"
     },
     "iPFN_demo/E1_5_STAR_ATE_RESULTS.md": {
-      "sha256": "cf48bbb59f043943bc35811bc99a75702c931e9dc5f40bc6eb49316613a1efcc",
+      "sha256": "d64e58a0bb7b2eb563d66a220fb6110b6c8b0187bbe2ee685d3d7ea7989449f8",
       "mode": "CRLF_to_LF"
     },
     "iPFN_demo/results/e1_5_star_ate_submission_v1/README_PUBLIC.md": {
-      "sha256": "9db8423911af6c11c6a9ac7f207ae51fa2b98ae51938827665d71bda0a5191dc",
+      "sha256": "d884eadb72edd7b0ce04ebc9f67d6b68365802cee9ebcc5bdc25ac18d21cc089",
       "mode": "CRLF_to_LF"
     },
     "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/.gitattributes": {
@@ -279,9 +280,13 @@
     "iPFN_demo/results/e1_5_star_ate_submission_v1/context_level/verify_public_evidence.py": {
       "sha256": "604e55a0871ee7f89acfaf3834b750201f4a66af256c6a407ae40a5f03c07dc4",
       "mode": "raw_bytes"
+    },
+    "iPFN_demo/results/e1_5_star_ate_submission_v1/DELIVERY_STATUS.md": {
+      "sha256": "6765a1ea97435c113ab1b8e83e83cd7139bca472ddeffd55822266a576fd86b9",
+      "mode": "CRLF_to_LF"
     }
   },
-  "checksum_rules": "CSV and files with node_support local LF attributes use exact raw byte SHA256; Python and the two existing Markdown files use explicitly labelled CRLF-to-LF SHA256 to allow ordinary Git text checkouts. This summary excludes its own hash.",
+  "checksum_rules": "CSV and files with node_support local LF attributes use exact raw byte SHA256; Python and Markdown entries labelled CRLF_to_LF use CRLF-to-LF SHA256 to allow ordinary Git text checkouts. This summary excludes its own hash.",
   "original_protection": {
     "protected_file_hashes_unchanged": 2299,
     "original_branch_unchanged": true,
@@ -318,5 +323,26 @@
     "verification_passed": true,
     "original_scientific_results_unchanged": true,
     "raw_evidence_authentication_not_claimed": true
+  },
+  "actions_scope": "Historical preparation actions only; git_stage_commit_push_or_pr_update=false does not describe subsequent Fork staging publication. See public_delivery and delivery_review_20261030.",
+  "scientific_review_scope": "Historical node/Support consistency review PASS; not a declaration that the ATE coverage target was met.",
+  "delivery_review_20261030": {
+    "baseline_commit": "1dd5e276f816f5dc4766b4d2117ff7dc2f869aa3",
+    "requirement_comparison": "iPFN_demo/results/e1_5_star_ate_submission_v1/DELIVERY_STATUS.md",
+    "initial_task_exact_source_recovered": false,
+    "later_update_user_transcription_recovered": true,
+    "original_images_recovered": false,
+    "evaluation_complete": true,
+    "all_coverage_targets_met": false,
+    "coverage_policy_owner_decision_required": true,
+    "public_verifier_self_tests_passed": 10,
+    "node_support_tests_passed": 13,
+    "receipt_metadata_tests_passed": 4,
+    "public_reference_rows_recomputed": 4275,
+    "formal_validate_dgp_or_real_predictions_run": false,
+    "pr_branch_frozen_sha": "a46a03b7862eadab4bfea0309d13cabe5e1ac066",
+    "publication_scope": "personal Fork staging only; PR/upstream update requires separate approval",
+    "original_protected_hashes_rechecked": 2299,
+    "original_head_and_status_rechecked_unchanged": true
   }
 }

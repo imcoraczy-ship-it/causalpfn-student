@@ -105,7 +105,7 @@ python -B iPFN_demo/code/sparse_j/scripts/e1_5_star_ate.py `
 
 此入口不重新预测，但会确定性重建 DGP/配对流用于核对输入。本轮交付准备没有执行它，仅验证现存字节和记录；再次执行应作为后续单独获准的复验。不要在已修改源码、历史文档或 Git 属性的普通工作树中忽略源码哈希失败。
 
-`preview/` 中的图表和表格来自现有正式报告，没有重新运行预测或报告算法。三个 SVG 展示副本各仅清理69行行尾空格，不再与来源逐字节相同；坐标、图例、文字及图形元素未改，其他展示文件保持来源字节。展示身份不等于原始验收对象，正式字节与原有 provenance 以本地保留的原 ZIP 中原件为准；该 ZIP 未随本公开 PR 提供。原始来源和原始 SHA256 清单未修改。预览目录新增 [局部 .gitattributes](results/e1_5_star_ate_submission_v1/preview/.gitattributes)，仅为13份SVG/CSV/TEX预览文本关闭Git自动换行转换，保留现有换行字节，不恢复SVG已删除的行尾空格。首版公开提交包含34个文件，节点/Support补充新增17个文件。当前上下文证据候选另新增12个文件，累计63个公开候选文件；科研任务数和原ATE统计口径不变，新增材料已准备纳入个人 Fork 的 staging 分支，不属于 PR #4，也不会推送至 upstream。
+`preview/` 中的图表和表格来自现有正式报告，没有重新运行预测或报告算法。三个 SVG 展示副本各仅清理69行行尾空格，不再与来源逐字节相同；坐标、图例、文字及图形元素未改，其他展示文件保持来源字节。展示身份不等于原始验收对象，正式字节与原有 provenance 以本地保留的原 ZIP 中原件为准；该 ZIP 未随本公开 PR 提供。原始来源和原始 SHA256 清单未修改。预览目录新增 [局部 .gitattributes](results/e1_5_star_ate_submission_v1/preview/.gitattributes)，仅为13份SVG/CSV/TEX预览文本关闭Git自动换行转换，保留现有换行字节，不恢复SVG已删除的行尾空格。首版公开提交包含34个文件，节点/Support补充新增17个文件。当前上下文证据候选另新增12个文件，累计63个公开候选文件；科研任务数和原ATE统计口径不变，新增材料已在提交 `1dd5e276f816f5dc4766b4d2117ff7dc2f869aa3` 中推送至个人 Fork 的 staging 分支，不属于 PR #4，也不会推送至 upstream。
 
 ## 局限性与公开状态
 
@@ -129,10 +129,14 @@ Support保留 `conditional_structural_zero`、`assignment_zero`、`observation_s
 
 原正式ATE结果和失败记录保持不变，尤其Spillover **359/400=89.75%，未达到90%目标**。公开的 [节点与Support说明](results/e1_5_star_ate_submission_v1/node_support/README.md) 提供机制级及总体CSV、脚本、测试和公开审核摘要。未公开完整原始输入、原manifest/receipt或详细本地审计记录；第三方可复算公开汇总及Bootstrap，不能仅凭公开材料完成原逐节点或完整字节验收。
 
-## 上下文级证据的公开候选
+## 上下文级证据（已推送至 Fork staging）
 
 现新增 [上下文级证据目录](results/e1_5_star_ate_submission_v1/context_level/README.md)，包含400条最小身份记录、3600条ATE评价、五类节点/Support上下文摘要及既有配对差值。ATE中repeat等于receipt的真实pair_repeat_id，center_t显式提供；历史context_id、原正式CSV和冻结快照均未改。baseline无区间时使用N/A，保留全部计数、失败状态和分母。
 
 公开总体ATE真值、点估计和区间端点标量可以复核覆盖率，但不公开原始逐节点预测/真值数组、完整receipt或事实输入。配套验证器不需要模型，可复算上下文到机制/总体指标、三方法点估计统计、Support差值/Bootstrap和原图表源数据；不能由此宣称完整原始实验已可复现或完整冻结验收已公开完成。
 
 Direct仍为386/400=96.50%，Spillover **359/400=89.75%，未达到90%目标**，Total为373/400=93.25%。20个机制才是独立单位；Support仅为条件关联，没有节点级后验区间。中心分层使用显式center_t，不得对修正后的真实repeat取奇偶。完整原始证据ZIP仍未公开。
+
+## staging交付核对
+
+原任务来源缺口、逐项要求对照、覆盖率未达目标及待所有者决定的事项，见[交付核对记录](results/e1_5_star_ate_submission_v1/DELIVERY_STATUS.md)。该记录只随个人Fork staging提供；PR #4保持冻结，不代表最新增量已进入PR。
